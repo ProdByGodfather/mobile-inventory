@@ -23,6 +23,16 @@
                 {% endfor %}
             </select>
         </div>
+        
+        <div class="col-auto">
+            <label for="selected_status">انتخاب موجودی:</label>
+            <select class="form-control" id="selected_status" name="selected_status">
+                <option value="">همه موجودی ها</option>
+                    <option value="available" {% if filter_by_status == "available" %}selected{% endif %}>موجود</option>
+                    <option value="unavailable" {% if filter_by_status == "unavailable" %}selected{% endif %}>نا موجود</option>
+            </select>
+        </div>
+        
         <div class="col-auto">
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="filter_by_nationality" name="filter_by_nationality" {% if filter_by_nationality %}checked{% endif %}>

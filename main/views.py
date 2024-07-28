@@ -36,7 +36,8 @@ def mobile_list(request):
     brand_name = request.GET.get('brand_name', '')
     selected_brand_id = request.GET.get('selected_brand', '')
     filter_by_nationality = request.GET.get('filter_by_nationality', 'off') == 'on'
-
+    filter_by_status = request.GET.get('selected_status','')
+    
     if brand_name:
         mobiles = mobiles.filter(brand__name__icontains=brand_name)
 
@@ -46,13 +47,21 @@ def mobile_list(request):
     if filter_by_nationality:
         mobiles = mobiles.filter(brand__nationality=F('manufacturing_country'))
 
-    brands = Brand.objects.all()  # برای نمایش لیست برندها در فرم
+    if filter_by_status:
+        if filter_by_status == "unavailable":
+            mobiles = mobiles.filter(status='unavailable')
+        elif filter_by_status == "available":
+            mobiles = mobiles.filter(status='available')
+            
+    
+    brands = Brand.objects.all() 
     return render(request, 'inventory/mobile_list.html', {
         'mobiles': mobiles,
         'brands': brands,
         'brand_name': brand_name,
         'selected_brand_id': selected_brand_id,
-        'filter_by_nationality': filter_by_nationality
+        'filter_by_nationality': filter_by_nationality,
+        'filter_by_status':filter_by_status
     })
 
 def korean_brands(request):
@@ -67,5 +76,5 @@ def mobiles_by_brand(request):
     return JsonResponse([], safe=False)
 
 def matching_nationality_mobiles(request):
-    mobiles = Mobile.objects.filter(brand__nationality=models.F('manufacturing_country'))
+    mobiles = Mobile.objects.filter(brand__nationality=F('manufacturing_country'))
     return JsonResponse(list(mobiles.values('model', 'brand__name', 'manufacturing_country')), safe=False)
