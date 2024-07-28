@@ -1,0 +1,10 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<h2>لیست برندها</h2>
+<ul>
+    {% for brand in brands %}
+    <li>{{ brand.name }} - {{ brand.nationality }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

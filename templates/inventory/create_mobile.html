@@ -1,0 +1,31 @@
+{% extends 'inventory/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h2 class="mb-4">افزودن گوشی جدید</h2>
+<form method="post" class="needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.brand|as_crispy_field }}
+    </div>
+    <div class="form-group">
+        {{ form.model|as_crispy_field }}
+    </div>
+    <div class="form-group">
+        {{ form.price|as_crispy_field }}
+    </div>
+    <div class="form-group">
+        {{ form.color }}
+    </div>
+    <div class="form-group">
+        {{ form.screen_size|as_crispy_field }}
+    </div>
+    <div class="form-group">
+        {{ form.status|as_crispy_field }}
+    </div>
+    <div class="form-group">
+        {{ form.manufacturing_country|as_crispy_field }}
+    </div>
+    <button type="submit" class="btn btn-primary">ذخیره</button>
+</form>
+{% endblock %}

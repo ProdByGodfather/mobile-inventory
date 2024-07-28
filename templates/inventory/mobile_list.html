@@ -1,0 +1,67 @@
+<!-- mobile_list.html -->
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<h2 class="mb-4">لیست گوشی‌ها</h2>
+
+<form method="get" class="mb-4">
+    <div class="form-row align-items-end">
+        <div class="col-auto">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">جستجوی برند:</span>
+                </div>
+                <input type="text" class="form-control" id="brand_name" name="brand_name" value="{{ brand_name }}">
+            </div>
+        </div>
+        <div class="col-auto">
+            <label for="selected_brand">انتخاب برند:</label>
+            <select class="form-control" id="selected_brand" name="selected_brand">
+                <option value="">همه برندها</option>
+                {% for brand in brands %}
+                    <option value="{{ brand.id }}" {% if selected_brand_id == brand.id|stringformat:"d" %}selected{% endif %}>{{ brand.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-auto">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="filter_by_nationality" name="filter_by_nationality" {% if filter_by_nationality %}checked{% endif %}>
+                <label class="form-check-label" for="filter_by_nationality">فقط موبایل‌هایی که برند آن‌ها با کشور سازنده برابر است</label>
+            </div>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">جستجو</button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>برند</th>
+            <th>مدل</th>
+            <th>قیمت</th>
+            <th>رنگ</th>
+            <th>سایز صفحه نمایش</th>
+            <th>وضعیت</th>
+            <th>کشور سازنده</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mobile in mobiles %}
+        <tr>
+            <td>{{ mobile.brand.name }}</td>
+            <td>{{ mobile.model }}</td>
+            <td>{{ mobile.price|floatformat:2 }}</td>
+            <td>
+                <span class="badge" style="background-color: {{ mobile.color }};">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                {{ mobile.color }}
+            </td>
+            <td>{{ mobile.screen_size }}</td>
+            <td>{{ mobile.get_status_display }}</td>
+            <td>{{ mobile.manufacturing_country }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
